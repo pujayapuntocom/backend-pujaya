@@ -1,5 +1,3 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { text } from "stream/consumers";
 import { Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity({
@@ -8,4 +6,5 @@ import { Entity, PrimaryGeneratedColumn } from "typeorm";
 export class Auction {
     @PrimaryGeneratedColumn('uuid')
     public id: string
+    
 }
