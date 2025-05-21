@@ -22,4 +22,6 @@ export class CreateAuctionDto {
     description: 'Debes ingresar los Id de los usuarios premiun',
   })
   idBuyers: [string];
+
+  
 }
