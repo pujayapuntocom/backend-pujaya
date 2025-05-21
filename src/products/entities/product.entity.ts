@@ -20,13 +20,13 @@ export class Product {
       ['https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.shopify.com%2Fpartners%2Fblog%2Fimg-url-filter&psig=AOvVaw2EkP0J65Il4Nos_inEkDNc&ust=1742612582382000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCNjajdCXmowDFQAAAAAdAAAAABAE',]
   
   })
-  public imgProduct: string;
+  public imgProduct: [string];
 
   @Column({
     type: 'text',
     nullable: false,
   })
-  public description: [string];
+  public description: string;
 
   @Column('decimal', {
     scale: 2,
