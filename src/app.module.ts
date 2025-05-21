@@ -1,5 +1,8 @@
 import { Module } from '@nestjs/common';
 import { UsersModule } from './users/users.module';
+import { ProductsModule } from './products/products.module';
+import { CategoryModule } from './category/category.module';
+import { AuctionsModule } from './auctions/auctions.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import typeOrmConfig from './config/typeorm';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
@@ -19,15 +22,12 @@ import { CategoryModule } from './category/category.module';
         const typeOrmConfig =
           configService.get<TypeOrmModuleOptions>('typeorm');
         if (!typeOrmConfig) {
-          throw new Error('Fallo en la configuracion de typeorm');
+          throw new Error('Fallo en la configuración de TypeORM');
         }
         return typeOrmConfig;
       },
     }),
     UsersModule,
-    ProductsModule,
-    AuctionsModule,
-    CategoryModule
   ],
 })
 export class AppModule {}
