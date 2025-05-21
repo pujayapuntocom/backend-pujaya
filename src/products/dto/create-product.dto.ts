@@ -11,14 +11,23 @@ export class CreateProductDto {
   @IsNotEmpty()
   name: string;
 
-  @ApiProperty({
+  // @ApiProperty({
+  //   required: true,
+  //   description:
+  //     'Debes elegir almenos una imagen del producto maximo 3 imagenes',
+  // })
+  // @IsString()
+  // @IsNotEmpty()
+  // imgProduct: [string];
+
+   @ApiProperty({
     required: true,
-    description:
-      'Debes elegir almenos una imagen del producto maximo 3 imagenes',
+    description: 'Debes ingresar el detalle del producto',
+    example: 'Dodge Dard 1971',
   })
   @IsString()
   @IsNotEmpty()
-  imgProduct: [string];
+  description: string;
 
   @ApiProperty({
     required: true,
