@@ -7,8 +7,4 @@ export class UpdateCategoryDto extends PartialType(CreateCategoryDto) {
     @IsString()
     @IsNotEmpty()
     categoryName: string
-
-    @IsString()
-    @IsNotEmpty()
-    imgProduct: string
 }

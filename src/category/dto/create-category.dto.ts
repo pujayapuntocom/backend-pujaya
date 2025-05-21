@@ -5,8 +5,4 @@ export class CreateCategoryDto {
     @IsNotEmpty()
     @IsString()
     categoryName: string
-
-    @IsNotEmpty()
-    @IsString() 
-    imgProduct: string
 }

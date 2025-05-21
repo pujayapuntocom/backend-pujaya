@@ -12,13 +12,6 @@ export class Category {
         unique: true,
     })
     categoryName: string
-    
-    @Column({
-        type: "varchar",
-        length: 100,
-        unique: true,
-    })
-    imgProduct: string
 }
 
 
