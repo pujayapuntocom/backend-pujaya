@@ -1,7 +1,9 @@
+import { Auction } from 'src/auctions/entities/auction.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -85,4 +87,18 @@ export class User {
     default: 'regular',
   })
   role: string;
+
+  @Column({
+    type: 'json',
+    nullable: true,
+  })
+  permissions: {
+    canManageUsers?: boolean;
+    canEditAuctions?: boolean;
+    canDeleteListings?: boolean;
+    suscriptionType?: 'monthly' | 'annual';
+  };
+
+  @OneToMany(() => Auction, (auction) => auction.owner)
+  auctions: Auction[];
 }
