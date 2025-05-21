@@ -1,5 +1,6 @@
 import { Auction } from 'src/auctions/entities/auction.entity';
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Category } from 'src/category/entities/category.entity';
+import { Column, Entity, ManyToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({
   name: 'products',
@@ -45,4 +46,7 @@ export class Product {
 
   @OneToOne(() => Auction, (auction) => auction.products)
   auction: Auction;
+
+  @ManyToMany(() => Category, (category) => category.products)
+  category: Category[];
 }
