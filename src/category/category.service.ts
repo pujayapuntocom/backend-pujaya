@@ -27,7 +27,7 @@ export class CategoryService {
     return await this.categoryRepository.update(id, category);
   }
 
-  // remove(id: number) {
-  //   return `This action removes a #${id} category`;
-  // }
+async delete(id: string) {
+  return await this.categoryRepository.delete(id);
+}
 }
