@@ -1,8 +1,5 @@
 import { InjectRepository } from "@nestjs/typeorm";
 import { Category } from "./entities/category.entity";
-import { User } from "src/users/entities/user.entity";
-
-
 import { Repository } from "typeorm";
 
 export class CategoryRepository {
@@ -15,16 +12,17 @@ export class CategoryRepository {
         return newCategory
     }
     
-    async findAll(page: number = 1, limit: number = 5): Promise<Partial<User>[]> { 
-        let category = await this.categoryRepository.find()
+async findAll(page: number = 1, limit: number = 5): Promise<Partial<Category>[]> {
+    let categories = await this.categoryRepository.find({
+        where: { isActive: true },
+    });
 
-        const startIndex = (page - 1) * limit;
-        const endIndex = startIndex + +limit;
+const startIndex = (page - 1) * limit;
+const endIndex = startIndex + limit;
 
-        category = category.slice(startIndex, endIndex);
+return categories.slice(startIndex, endIndex);
+}
 
-        return category
-    }
 
     async findOne(id: string) {
         const category = await this.categoryRepository.findOne({
@@ -32,7 +30,7 @@ export class CategoryRepository {
             relations: {products: true},
         });
         if (!category) {
-            return 'Category not found';
+            return 'Categoria no encontrada';
         }
         return category;
     }
@@ -46,6 +44,20 @@ export class CategoryRepository {
     
     }
     
+async delete(id: string) {
+    const category = await this.categoryRepository.findOne({ where: { id } });
 
+if (!category) {
+    return 'Categoria no encontrada';
+}
+
+category.isActive = false;
+await this.categoryRepository.save(category);
+
+return {
+    message: `La categoría con id ${id} fue eliminada.`,
+    category,
+};
+}
 }
 
