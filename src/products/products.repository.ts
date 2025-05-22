@@ -15,55 +15,62 @@ export class ProductsRepository {
     private categoryRepository: Repository<Category>,
   ) {}
 
-  async createProduct(createProductDto: CreateProductDto) {
+  async createProduct(createProductDto: CreateProductDto): Promise<Product> {
     console.log(createProductDto);
     const newProduct = await this.productRepository.save(createProductDto);
     if (!newProduct) {
-      throw new BadRequestException();
+      throw new BadRequestException('No ha sido creado el producto Ha ocurrido un error');
     }
 
     return newProduct;
   }
 
-  async findAll(limit, page) {
+  async findAll(limit: number, page:number): Promise<Product[]> {
     const [data] = await this.productRepository.findAndCount({
       skip: (page - 1) * limit,
       take: limit,
     });
+    if(!data) {
+        throw new BadRequestException('Error al solicitar los productos a la base de datos')
+    }
     return data;
   }
 
-  async findOne(id: string) {
+  async findOne(id: string): Promise<Product | BadRequestException> {
     const oneProduct = await this.productRepository.findOneBy({ id });
     if (!oneProduct) {
-      return new BadRequestException();
+      return new BadRequestException('No existe un producto con ese id');
     }
     return oneProduct;
   }
 
-  async update(id: string, updateProductDto: UpdateProductDto) {
+  async update(
+    id: string,
+    updateProductDto: UpdateProductDto,
+  ): Promise<Product> {
     const oneProduct = await this.findOne(id);
-    if (!oneProduct) {
-      throw new BadRequestException();
+    if (oneProduct instanceof Product) {
+      const oneProductUpdate: Product = { ...oneProduct, ...updateProductDto };
+      await this.productRepository.save(oneProductUpdate);
+
+      return oneProductUpdate;
     }
 
-    const oneProductUpdate = { ...oneProduct, ...updateProductDto };
-    this.productRepository.save(oneProductUpdate);
-
-    return oneProductUpdate;
+    throw new BadRequestException('No existe un producto con es id');
   }
 
-  async delete(id: string) {
-    const product = await this.findOne(id);
-    if (product) {
-      await this.productRepository
-        .createQueryBuilder()
-        .delete()
-        .from(Product)
-        .where({ id })
-        .execute();
-      return id;
+  async delete(id: string): Promise<string> {
+    let product: Product | BadRequestException = await this.findOne(id);
+    if (!product) {
+      throw new Error('Producto no encontrado');
     }
-    throw new Error('Producto no encontrado');
+    const deleteProduct = { ...product, isActive: false };
+    await this.productRepository
+      .createQueryBuilder()
+      .update(Product)
+      .set(deleteProduct)
+      .where({ id })
+      .execute();
+    return id;
   }
 }
