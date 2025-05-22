@@ -13,6 +13,9 @@ export class Category {
   })
   categoryName: string;
 
+  @Column({ default: true })
+  isActive: boolean;
+
   @ManyToMany(() => Product, (product: Product) => product.category)
   products: Product[];
 }
