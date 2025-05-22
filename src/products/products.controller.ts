@@ -24,7 +24,7 @@ export class ProductsController {
   }
 
   @Get()
-  findAll(@Query('limit') limit:number, @Query('page') page: number ) {
+  findAll(@Query('limit') limit:number, @Query('page') page: number) {
     return this.productsService.findAll(!limit ? 10 : limit, !page ? 1 : page);
   }
 

@@ -20,7 +20,7 @@ export class CreateProductDto {
   // @IsNotEmpty()
   // imgProduct: [string];
 
-   @ApiProperty({
+  @ApiProperty({
     required: true,
     description: 'Debes ingresar el detalle del producto',
     example: 'Dodge Dard 1971',
