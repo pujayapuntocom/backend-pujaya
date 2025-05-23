@@ -101,4 +101,10 @@ export class User {
 
   @OneToMany(() => Auction, (auction) => auction.owner)
   auctions: Auction[];
+
+  @Column({
+    type: 'timestamp',
+    nullable: true,
+  })
+  deactivatedAt: Date | null;
 }

@@ -57,9 +57,20 @@ export class UsersRepository {
       const user = await this.repository.findOneBy({ id });
       if (!user)
         throw new NotFoundException(`Error deleting user with id ${id}`);
-      await this.repository.delete(id);
+      await this.repository.update(id, {
+        isActive: false,
+        deactivatedAt: new Date(),
+      });
     } catch (error) {
       throw new InternalServerErrorException('Error deleting user');
+    }
+  }
+
+  async deletePermanently(id: string): Promise<void> {
+    try {
+      await this.repository.delete(id);
+    } catch (error) {
+      throw new InternalServerErrorException('Error deleting user permanently');
     }
   }
 }
