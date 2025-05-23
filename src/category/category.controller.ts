@@ -15,7 +15,7 @@ import { UpdateCategoryDto } from './dto/update-category.dto';
 import { ApiTags } from '@nestjs/swagger';
 import { Category } from './entities/category.entity';
 
-@ApiTags('category')
+@ApiTags('Category')
 @Controller('category')
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
@@ -26,7 +26,10 @@ export class CategoryController {
   }
 
   @Get()
-  async findAll( @Query('page') page: number = 1, @Query('limit') limit: number = 5) {
+  async findAll(
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 5,
+  ) {
     return await this.categoryService.findAll(page, limit);
   }
 
@@ -36,15 +39,12 @@ export class CategoryController {
   }
 
   @Put(':id')
-  async update(
-    @Param('id') id: string,
-    @Body() category: Category,
-  ) {
+  async update(@Param('id') id: string, @Body() category: Category) {
     return await this.categoryService.update(id, category);
   }
 
-@Delete(':id')
-async delete(@Param('id') id: string) {
-  return await this.categoryService.delete(id);
-}
+  @Delete(':id')
+  async delete(@Param('id') id: string) {
+    return await this.categoryService.delete(id);
+  }
 }
