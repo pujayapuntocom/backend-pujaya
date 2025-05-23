@@ -1,26 +1,29 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAuctionDto } from './dto/create-auction.dto';
 import { UpdateAuctionDto } from './dto/update-auction.dto';
+import { AuctionsRepository } from './auctions.repository';
 
 @Injectable()
 export class AuctionsService {
+constructor(private autionsRepository: AuctionsRepository){}
+
   create(createAuctionDto: CreateAuctionDto) {
-    return 'This action adds a new auction';
+    return this.autionsRepository.createAuction(createAuctionDto);
   }
 
-  findAll() {
-    return `This action returns all auctions`;
+  findAll(limit: number, page: number) {
+    return this.autionsRepository.findAll(limit, page);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} auction`;
+  findOne(id: string) {
+    return this.autionsRepository.findOne(id);
   }
 
-  update(id: number, updateAuctionDto: UpdateAuctionDto) {
-    return `This action updates a #${id} auction`;
+  update(id: string, updateAuctionDto: UpdateAuctionDto) {
+    return this.autionsRepository.updateAution(id, updateAuctionDto);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} auction`;
+  remove(id: string) {
+    return this.autionsRepository.deleteAuction(id);
   }
 }
