@@ -6,45 +6,40 @@ import {
   Patch,
   Param,
   Delete,
-  Query,
-  Put,
 } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
-import { ApiTags } from '@nestjs/swagger';
-import { Category } from './entities/category.entity';
 
-@ApiTags('category')
 @Controller('category')
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
   @Post()
-  async create(@Body() category: Category) {
-    return await this.categoryService.create(category);
+  create(@Body() createCategoryDto: CreateCategoryDto) {
+    return this.categoryService.create(createCategoryDto);
   }
 
   @Get()
-  async findAll( @Query('page') page: number = 1, @Query('limit') limit: number = 5) {
-    return await this.categoryService.findAll(page, limit);
+  findAll() {
+    return this.categoryService.findAll();
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: string) {
-    return await this.categoryService.findOne(id);
+  findOne(@Param('id') id: string) {
+    return this.categoryService.findOne(+id);
   }
 
-  @Put(':id')
-  async update(
+  @Patch(':id')
+  update(
     @Param('id') id: string,
-    @Body() category: Category,
+    @Body() updateCategoryDto: UpdateCategoryDto,
   ) {
-    return await this.categoryService.update(id, category);
+    return this.categoryService.update(+id, updateCategoryDto);
   }
 
-@Delete(':id')
-async delete(@Param('id') id: string) {
-  return await this.categoryService.delete(id);
-}
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return this.categoryService.remove(+id);
+  }
 }
