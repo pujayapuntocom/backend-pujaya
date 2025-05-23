@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { ScheduleModule } from '@nestjs/schedule'; // <-- Agrega esto
 import { UsersModule } from './users/users.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import typeOrmConfig from './config/typeorm';
@@ -24,6 +25,7 @@ import { CategoryModule } from './category/category.module';
         return typeOrmConfig;
       },
     }),
+    ScheduleModule.forRoot(),
     UsersModule,
     ProductsModule,
     AuctionsModule,

@@ -64,6 +64,8 @@ export class UsersController {
     try {
       const user = await this.usersService.findOne(id);
       if (!user) throw new NotFoundException(`User with id ${id} not found`);
+      if (!user.isActive)
+        return { message: `User with id ${id} is already deleted` };
       await this.usersService.remove(id);
       return { message: `User with id ${id} deleted` };
     } catch (error) {
