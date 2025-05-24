@@ -1,12 +1,15 @@
 import { InjectRepository } from "@nestjs/typeorm";
 import { Category } from "./entities/category.entity";
 import { Repository } from "typeorm";
+import { CreateCategoryDto } from "./dto/create-category.dto";
+import { UpdateCategoryDto } from "./dto/update-category.dto";
+import { BadRequestException } from "@nestjs/common";
 
 export class CategoryRepository {
     @InjectRepository(Category)
     private categoryRepository: Repository<Category>
 
-    async create(category: Category) {
+    async create(category: CreateCategoryDto) {
         const newCategory = await this.categoryRepository.save(category)
 
         return newCategory
@@ -35,7 +38,7 @@ return categories.slice(startIndex, endIndex);
         return category;
     }
 
-    async update (id: string, category: Category) {
+    async update (id: string, category: UpdateCategoryDto) {
     await this.categoryRepository.update(id, category)
     const updateCategory = await this.categoryRepository.findOne({ 
         where: { id } 
@@ -48,7 +51,7 @@ async delete(id: string) {
     const category = await this.categoryRepository.findOne({ where: { id } });
 
 if (!category) {
-    return 'Categoria no encontrada';
+    throw new BadRequestException('Categoria no encontrada') ;
 }
 
 category.isActive = false;
