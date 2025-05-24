@@ -44,12 +44,6 @@ export class Product {
   })
   public finalPrice: number;
 
-   @Column({
-    type: 'boolean',
-    default: true,
-  })
-  isActive: boolean;
-
   @OneToOne(() => Auction, (auction) => auction.products)
   auction: Auction;
 
