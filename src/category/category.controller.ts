@@ -21,7 +21,7 @@ export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
   @Post()
-  async create(@Body() category: Category) {
+  async create(@Body() category: CreateCategoryDto) {
     return await this.categoryService.create(category);
   }
 
@@ -38,7 +38,7 @@ export class CategoryController {
   @Put(':id')
   async update(
     @Param('id') id: string,
-    @Body() category: Category,
+    @Body() category: UpdateCategoryDto,
   ) {
     return await this.categoryService.update(id, category);
   }
